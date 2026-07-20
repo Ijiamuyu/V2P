@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <remote name="origin"
+            fetch="ssh://git@github.com/Ijiamuyu"
+            review="github.com"/>
+
+    <default remote="origin"
+             revision="master"/>
+
+    <project path="qemu"
+             name="qemu-v2p"
+             description="QEMU 设备模型（硬件虚拟原型）"/>
+
+    <project path="software/rtos"
+             name="rtos-v2p"
+             description="RTOS 实时操作系统"/>
+</manifest>

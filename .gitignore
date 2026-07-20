@@ -1,0 +1,3 @@
+# Repo 子仓库：由 default.xml 管理，V2P 仅作为元仓库聚合
+/qemu/
+/software/rtos/
