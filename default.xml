@@ -14,4 +14,8 @@
     <project path="software/rtos"
              name="rtos-v2p"
              description="RTOS 实时操作系统"/>
+
+    <project path="skill"
+             name="skill"
+             description="LLM skill"/>
 </manifest>
