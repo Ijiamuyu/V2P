@@ -4,6 +4,10 @@
             fetch="ssh://git@github.com/Ijiamuyu"
             review="github.com"/>
 
+    <remote name="gerrit"
+            fetch="gerrit@192.168.0.104:"
+            review="192.168.0.104"/>
+
     <default remote="origin"
              revision="master"/>
 
@@ -13,6 +17,7 @@
 
     <project path="software/rtos"
              name="rtos-v2p"
+             remote="gerrit"
              description="RTOS 实时操作系统"/>
 
     <project path="skill"
