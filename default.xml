@@ -18,4 +18,8 @@
     <project path="skill"
              name="skill"
              description="LLM skill"/>
+
+    <project path="spec"
+             name="spec-v2p"
+             description="V2P 全局 SPEC 定义:QEMU 设备模型 / 软件 SDK / SoC 地址映射 / FPGA 综合约束"/>
 </manifest>
