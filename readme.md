@@ -18,35 +18,31 @@ AP 支持 Linux SMP / FreeRTOS SMP / RT-Thread SMP，NPU 与 FSI 各运行 FreeR
 ## 架构概览
 
 ```text
-          ┌────────────────────────┐
-          │   AP 子系统 (RV64 ×4)   │
-          │  VexRiscv-SMP / MMU /   │
-          │  PLIC / CLINT / SBI     │
-          └────────────┬───────────┘
-                       │
-              ┌────────┴────────┐
-              │  MBOX (8 通道)  │
-              └────────┬────────┘
-                       │
-    ┌──────────┬──────────┬──────────┐
-    │          │          │          │
-┌───▼──┐  ┌────▼────┐  ┌──▼─────┐  ┌──▼──┐
-│ NPU* │  │ FSI    │  │ LSIO   │  │ DDR │
-│ RV32 │  │ RV32   │  │ 外设   │  │ 1GB │
-└──────┘  └────────┘  └────────┘  └──────┘
+ ┌─────────────────────────────────────────────────────────────┐
+ │                         AP 子系统                            │
+ │                   RV64 ×4 SMP / VexRiscv-SMP                │
+ └───────────────────────────┬─────────────────────────────────┘
+                             │
+ ┌─────────────────────────────────────────────────────────────┐
+ │                        AXI Interconnect                     │
+ ├──────────┬───────────┬───────────┬────────────┬─────────────┤
+ │   NPU*   │    FSI    │   MBOX    │   LSIO     │   Memory    │
+ │  RV32    │   RV32    │  核间通信  │  外设集     │            │
+ │ Gemmini  │ 安全启动   │           │  SPI/I2C   │  DDR3 1GB  │
+ │          │ AES/SHA   │           │  UART/DMA  │  SRAM 704KB │
+ │          │ RSA/TRNG  │           │  ETH/SD    │             │
+ └──────────┴───────────┴───────────┴────────────┴─────────────┘
 ```
 > *NPU 为独立仓库管理
-
-> DDR3 1GB + SYSTEM SRAM 704KB（共享）通过 AXI 互联连接各子系统。
 
 ### 子系统一览
 
 | 子系统 | 处理器 | 关键特性 | 运行环境 | 仓库 |
 |--------|--------|----------|----------|------|
-| **AP** | **VexRiscv-SMP** RV64 ×4 | MMU、PLIC、CLINT、SBI、缓存一致性、**专属 Timer** | **Linux SMP** / FreeRTOS SMP / RT-Thread SMP | v2p-ap |
+| **AP** | **VexRiscv-SMP** RV64 ×4 | MMU、PLIC、CLINT、SBI、缓存一致性、**专属 Timer（每核独立）** | **Linux SMP** / FreeRTOS SMP / RT-Thread SMP | v2p-ap |
 | **NPU** | VexRiscv RV32 调度核 + **Gemmini 8×8** | 硬件池化/激活、Gemmini scratchpad、128KB 私有 SRAM、**专属 Timer**、调试 UART | FreeRTOS | v2p-npu |
 | **FSI** | VexRiscv RV32 | AES-256 / SHA-256 / RSA-2048 / TRNG、**专属 Timer**、专属 UART、128KB 私有 SRAM | FreeRTOS | v2p-fsi |
-| **LSIO** | 无处理器 | SPI / I2C / DMA / UART(DMA) / GPIO / WDT / **Ethernet** / SD/MMC / **RTC** | 由 AP/FSI 编程控制 | v2p-soc |
+| **LSIO** | 无处理器 | SPI / **QSPI** / **I2C×2** / DMA / UART(DMA) / GPIO / **PWM** / **Timer×3** / WDT / **Ethernet** / SD/MMC / **RTC** / NPU-DBG | 由 AP/FSI 编程控制 | v2p-soc |
 
 ## 核心理念
 
