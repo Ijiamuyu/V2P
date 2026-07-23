@@ -5,7 +5,7 @@
             review="github.com"/>
 
     <remote name="gerrit"
-            fetch="gerrit@192.168.0.104:"
+            fetch="ssh://gerrit@192.168.0.104/"
             review="192.168.0.104"/>
 
     <default remote="origin"
@@ -16,7 +16,7 @@
              description="QEMU 设备模型（硬件虚拟原型）"/>
 
     <project path="software/rtos"
-             name="rtos-v2p"
+             name="jiamuyu/rtos-v2p"
              remote="gerrit"
              description="RTOS 实时操作系统"/>
 
